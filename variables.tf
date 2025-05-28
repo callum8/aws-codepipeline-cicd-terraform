@@ -10,7 +10,7 @@ resource "aws_codebuild_project" "codebuild_project" {
     for_each = toset(var.codecommit-repos)
 
   name          = "${each.key}-build-project"
-  service_role = aws_iam_role.example.arn
+  service_role = aws_iam_role.code.arn
   environment {
     compute_type = "BUILD_GENERAL1_SMALL"
     image        = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
@@ -48,7 +48,7 @@ resource "aws_codepipeline" "codepipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
-    location = aws_s3_bucket.articfact_bucket.id
+    location = aws_s3_bucket.artifact_bucket.id
     type     = "S3"
   }
 
@@ -80,7 +80,7 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
       input_artifacts = ["${each.key}-source"]
       configuration = {
-        ProjectName = aws_codebuild_project.codebuild_project[each.key].name
+        ProjectName = aws_codebuild_project.codepipeline[each.key].name
       }
     }
   }

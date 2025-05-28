@@ -1,11 +1,6 @@
-# variable "repo_name" {
-#   type    = string
-#   default = "video-repo"
-# }
-
-
+# This file contains the configuration for the CodeCommit repositories.
 variable "codecommit-repos" {
   type    = list(string)
-  default = ["video-repo"]
+  default = ["whatever-repo"]
 }
 
